@@ -169,11 +169,12 @@ aug = ImageDataGenerator(zoom_range=0.1,
                          width_shift_range=0.05,
                          height_shift_range=0.05)
 
-hist = model.fit(aug.flow(X_train, Y_train, batch_size=64),
-                 batch_size=64,
-                 epochs=50,
-                 validation_data=(X_test, Y_test),
-                 callbacks=callbacks)
+#fit model
+
+
+
+
+
 
 model.save('/Trained Model/HandwrittenMathEquationModel.keras')
 
