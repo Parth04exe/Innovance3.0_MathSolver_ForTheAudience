@@ -150,11 +150,11 @@ checkpoint = ModelCheckpoint('HandwrittenMathEquationModel.keras',
                              verbose=1,
                              mode='min')
 
-earlyStopping = EarlyStopping(monitor='val_accuracy',
-                              mode='auto',
-                              verbose=1,
-                              patience=10,
-                              restore_best_weights=True)
+# Add code for early stopping here
+
+
+
+
 
 reduceLr = ReduceLROnPlateau(monitor='val_accuracy',
                               factor=0.2,
