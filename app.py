@@ -64,19 +64,17 @@ class ConvolutionalNeuralNetwork:
 
     def load_model(self):
         print('Loading Model...')
-        model_json = open('model/model.json', 'r')
-        loaded_model_json = model_json.read()
-        model_json.close()
-        loaded_model = model_from_json(loaded_model_json)
+        # Load Model Architecture
 
         print('Loading weights...')
-        loaded_model.load_weights("model/model_weights.h5")
-        self.model = loaded_model
+        # Load Model Weights
+        
         print("Model loaded successfully!")
 
     def predict(self, operationBytes):
         Image.open(operationBytes).save('_aux_.png')
-        img = cv2.imread('_aux_.png', 0)
+        # Read Image
+        
         os.remove('_aux_.png')
         if img is not None:
             img_data = extract_imgs(img)
@@ -188,8 +186,8 @@ def predict():
         img_bytes = file.read()
         nparr = np.frombuffer(img_bytes, np.uint8)
         img = cv2.imdecode(nparr, cv2.IMREAD_GRAYSCALE)
-        processed_img = preprocess_image(img)
-        operation = cnn.predict(processed_img)
+        # Preprocess Image
+        # CNN Predict
         
         if mode == 'basic':
             try:
