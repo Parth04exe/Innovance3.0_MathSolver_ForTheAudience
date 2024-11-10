@@ -103,10 +103,12 @@ def preprocess_image(img):
     im = cv2.resize(img, (600, 200))
     ret, thresh = cv2.threshold(im, 127, 255, 0)
     kernel = np.zeros((3,3), np.uint8)
-    thresh = cv2.dilate(thresh, kernel, iterations=1)
-    thresh = cv2.morphologyEx(thresh, cv2.MORPH_OPEN, kernel)
-    thresh = thresh[10:, 10:]
+    # Processing thresholded image further for more clarifications.
+
+
+    
     retval, buffer_img = cv2.imencode('.png', thresh)
+    #coverting buffer image for better processing by the model
     data = base64.b64encode(buffer_img)
     data = str(data)
     data = str(data)[2:len(data)-1]
@@ -115,16 +117,18 @@ def preprocess_image(img):
 def extract_imgs(img):
     img = ~img
     _, thresh = cv2.threshold(img, 127, 255, cv2.THRESH_BINARY)
-    ctrs, _ = cv2.findContours(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-    cnt = sorted(ctrs, key=lambda ctr: cv2.boundingRect(ctr)[0])
+    #finding contours in the thresholded image
+    
+    #sorting the contours based on the x-coordinate of their bounding rectangles
+    
+    #Bounding rectangle extraction
+    
 
-    img_data = []
-    rects = []
-    for c in cnt:
-        x, y, w, h = cv2.boundingRect(c)
-        rect = [x, y, w, h]
-        rects.append(rect)
 
+
+
+    
+    #Checking for overlaping rectangles
     bool_rect = []
     for r in rects:
         l = []
@@ -137,16 +141,17 @@ def extract_imgs(img):
             else:
                 l.append(0)
         bool_rect.append(l)
+    #Filtering out smaller overlapping rectangles
 
-    dump_rect = []
-    for i in range(0, len(cnt)):
-        for j in range(0, len(cnt)):
-            if bool_rect[i][j] == 1:
-                area1 = rects[i][2] * rects[i][3]
-                area2 = rects[j][2] * rects[j][3]
-                if(area1 == min(area1, area2)):
-                    dump_rect.append(rects[i])
 
+
+
+
+
+
+
+    
+    #Cropping , resizing and storing image segments as numpy array
     final_rect = [i for i in rects if i not in dump_rect]
     for r in final_rect:
         x = r[0]
@@ -187,6 +192,7 @@ def predict():
         nparr = np.frombuffer(img_bytes, np.uint8)
         img = cv2.imdecode(nparr, cv2.IMREAD_GRAYSCALE)
         # Preprocess Image
+        
         # CNN Predict
         
         if mode == 'basic':
