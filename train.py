@@ -54,12 +54,11 @@ print("number of image: ",len(imagesData))
 print("shape of image:  ",imagesData[1].shape)
 print("labels:          ",list(set(imagesLabel)))
 
-imagesTrainData, imagesTestData, imagesTrainLabel, imagesTestLabel = train_test_split(
-                                                                                    imagesData,imagesLabel,
-                                                                                    shuffle=True,
-                                                                                    test_size=0.2,
-                                                                                    random_state=42,
-                                                                                    stratify= imagesLabel )
+# Split dataset here
+
+
+
+
 
 # Data exploration
 def showImage (images,label,part):
@@ -83,9 +82,11 @@ showImage(imagesTrainData,imagesTrainLabel, unique_idx)
 sns.countplot(x= list(imagesTrainLabel))
 
 # Preprocessing
-label_encoder = LabelEncoder()
-Y_train = label_encoder.fit_transform(imagesTrainLabel)
-Y_test = label_encoder.transform(imagesTestLabel)
+
+# Add a label encoder here
+
+
+
 
 Y_train = to_categorical(Y_train)
 Y_test = to_categorical(Y_test)
@@ -116,17 +117,17 @@ def detect_text(input_shape=(32, 32, 1)):
     model.add(MaxPooling2D(2, 2))
     model.add(Dropout(0.25))
 
-    model.add(
-        Conv2D(128, kernel_size=(3, 3), activation='relu', padding='same', kernel_regularizer=regularizers.l2(0.01)))
-    model.add(BatchNormalization())
-    model.add(MaxPooling2D(pool_size=(2, 2)))
-    model.add(Dropout(0.25))
+    # Add a second layer here
+
+
+
+    
 
     model.add(Flatten())
     model.add(Dense(1024, activation='relu'))
     model.add(Dropout(0.5))
 
-    model.add(Dense(82, activation='softmax'))
+    # Add output layer here
 
     model.compile(optimizer=Adam(learning_rate=0.0001, ),
                   loss='categorical_crossentropy',
