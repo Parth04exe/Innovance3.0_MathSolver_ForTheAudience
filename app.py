@@ -122,12 +122,13 @@ def extract_imgs(img):
     #sorting the contours based on the x-coordinate of their bounding rectangles
     
     #Bounding rectangle extraction
-    
+    img_data = []
+    rects = []
+    for c in cnt:
+        x, y, w, h = cv2.boundingRect(c)
+        rect = [x, y, w, h]
+        rects.append(rect)
 
-
-
-
-    
     #Checking for overlaping rectangles
     bool_rect = []
     for r in rects:
@@ -142,15 +143,14 @@ def extract_imgs(img):
                 l.append(0)
         bool_rect.append(l)
     #Filtering out smaller overlapping rectangles
-
-
-
-
-
-
-
-
-    
+    dump_rect = []
+    for i in range(0, len(cnt)):
+        for j in range(0, len(cnt)):
+            if bool_rect[i][j] == 1:
+                area1 = rects[i][2] * rects[i][3]
+                area2 = rects[j][2] * rects[j][3]
+                if(area1 == min(area1, area2)):
+                    dump_rect.append(rects[i])
     #Cropping , resizing and storing image segments as numpy array
     final_rect = [i for i in rects if i not in dump_rect]
     for r in final_rect:
